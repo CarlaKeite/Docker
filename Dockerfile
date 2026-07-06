@@ -1,10 +1,13 @@
-FROM php:8.2-fpm
+FROM node:20
 
-RUN apt-get update && apt-get install -y \
-    zip \
-    unzip \
-    curl
+WORKDIR /app
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY package*.json ./
 
-WORKDIR /var/www/html
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]
